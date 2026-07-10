@@ -3,531 +3,406 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>AI Shopping Copilot — Never Overpay Again</title>
+  <title>AI Shopping Copilot — Never Overpay Again | DABA Enterprise™</title>
   <meta name="description" content="AI shopping assistant for Amazon, AliExpress, Shein, eBay, Walmart & more. Buying score, price history, sizing & review insights — free Chrome extension."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --orange: #FF6B35;
       --yellow: #FFB800;
-      --blue: #0095FF;
-      --green: #00C851;
-      --dark: #0D0F1A;
-      --card: #13162A;
-      --border: rgba(255,255,255,0.08);
-      --text: #F0F2FF;
-      --muted: #8B90B0;
-      --font-display: 'Syne', system-ui, sans-serif;
-      --font-body: 'Inter', system-ui, sans-serif;
+      --blue: #0078D4;          /* Microsoft blue for links/CTAs */
+      --green: #107C10;         /* Microsoft green */
+      --bg: #FFFFFF;
+      --bg-alt: #F5F5F5;        /* Microsoft section grey */
+      --bg-soft: #FAF9F8;
+      --border: #E1DFDD;        /* Microsoft neutral border */
+      --text: #201F1E;          /* Microsoft near-black */
+      --text-secondary: #484644;
+      --muted: #605E5C;         /* Microsoft grey text */
+      --shadow: 0 1.6px 3.6px rgba(0,0,0,0.08), 0 0.3px 0.9px rgba(0,0,0,0.06);
+      --shadow-hover: 0 6.4px 14.4px rgba(0,0,0,0.11), 0 1.2px 3.6px rgba(0,0,0,0.08);
+      --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+      --radius: 8px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--dark);
+      background: var(--bg);
       color: var(--text);
-      font-family: var(--font-body);
+      font-family: var(--font);
       font-size: 16px;
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
-    /* ── Noise texture overlay ── */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── Layout ── */
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
-    /* ── Nav ── */
+    /* ── Nav — Microsoft style: white, thin border, understated ── */
     nav {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 24px;
-      max-width: 900px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 10;
     }
     .nav-brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
       text-decoration: none;
+      color: var(--text);
     }
-    .nav-icon {
-      width: 34px; height: 34px;
+    .logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    .footer-logo-full { height: 64px; width: auto; display: block; }
+    .logo-mark {
+      width: 32px; height: 32px;
       background: linear-gradient(135deg, var(--orange), var(--yellow));
-      border-radius: 9px;
+      border-radius: 7px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-    }
-    .nav-cta {
-      background: linear-gradient(135deg, var(--orange), var(--yellow));
       color: #fff;
       font-size: 13px;
-      font-weight: 700;
-      padding: 10px 20px;
-      border-radius: 25px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      font-family: var(--font);
+    }
+    .nav-name { font-size: 15px; font-weight: 600; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-secondary);
       text-decoration: none;
-      transition: opacity 0.2s;
-      font-family: var(--font-body);
     }
-    .nav-cta:hover { opacity: 0.85; }
+    .nav-links a:hover { color: var(--blue); text-decoration: underline; }
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 4px;
+      text-decoration: none !important;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #106EBE; text-decoration: none !important; }
 
-    /* ── Hero ── */
+    /* ── Hero — light, spacious, Microsoft-style ── */
     .hero {
+      padding: 88px 24px 72px;
       text-align: center;
-      padding: 70px 24px 60px;
-      position: relative;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F8 100%);
     }
-
-    /* Glow orbs */
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: -60px; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 400px;
-      background: radial-gradient(ellipse at center, rgba(255,107,53,0.15) 0%, rgba(0,149,255,0.08) 50%, transparent 70%);
-      pointer-events: none;
-    }
-
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      background: rgba(255,107,53,0.12);
-      border: 1px solid rgba(255,107,53,0.3);
+      gap: 8px;
+      background: #FFF4EE;
+      border: 1px solid #FFD9C7;
       color: var(--orange);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 25px;
-      margin-bottom: 28px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 26px;
     }
-    .eyebrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--orange);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-
     .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(38px, 7vw, 68px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 22px;
+      font-size: clamp(36px, 6vw, 58px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.015em;
       color: var(--text);
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto; margin-right: auto;
     }
-    .hero h1 .gradient-text {
-      background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 50%, var(--blue) 100%);
+    .hero h1 .accent {
+      background: linear-gradient(90deg, var(--orange), var(--yellow) 60%, var(--blue));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
     .hero-sub {
       font-size: 18px;
       color: var(--muted);
-      max-width: 560px;
+      max-width: 620px;
       margin: 0 auto 36px;
-      line-height: 1.6;
     }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
+    .hero-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
     .btn-primary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      background: var(--blue);
       color: #fff;
       font-size: 15px;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: 30px;
+      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: 4px;
       text-decoration: none;
-      transition: transform 0.2s, opacity 0.2s;
-      font-family: var(--font-body);
-      box-shadow: 0 8px 32px rgba(255,107,53,0.3);
+      transition: background 0.15s, box-shadow 0.15s;
+      box-shadow: var(--shadow);
     }
-    .btn-primary:hover { transform: translateY(-2px); opacity: 0.95; }
+    .btn-primary:hover { background: #106EBE; box-shadow: var(--shadow-hover); }
     .btn-secondary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: transparent;
+      background: #fff;
       border: 1px solid var(--border);
       color: var(--text);
       font-size: 15px;
       font-weight: 600;
-      padding: 14px 28px;
-      border-radius: 30px;
+      padding: 13px 28px;
+      border-radius: 4px;
       text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .btn-secondary:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
-
-    .hero-note {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .btn-secondary:hover { border-color: var(--muted); box-shadow: var(--shadow); }
+    .hero-note { font-size: 13px; color: var(--muted); }
     .hero-note span { color: var(--green); font-weight: 600; }
 
-    /* ── Extension preview ── */
-    .preview-wrap {
-      position: relative;
-      max-width: 360px;
-      margin: 50px auto 0;
-    }
-    .preview-glow {
-      position: absolute;
-      inset: -30px;
-      background: radial-gradient(ellipse, rgba(255,107,53,0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .preview-card {
-      background: #1A1D2E;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-      position: relative;
-    }
-    .preview-header {
-      background: linear-gradient(135deg, #FF6B35, #FFB800, #0095FF);
-      padding: 12px 14px;
+    /* Store logos strip */
+    .stores-strip {
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: space-between;
+      gap: 10px 26px;
+      flex-wrap: wrap;
+      margin-top: 44px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
     }
-    .preview-brand { display:flex;align-items:center;gap:8px }
-    .preview-icon { width:26px;height:26px;background:rgba(255,255,255,0.25);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px }
-    .preview-name { color:#fff;font-size:13px;font-weight:700 }
-    .preview-sub-text { color:rgba(255,255,255,0.75);font-size:10px }
-    .preview-badge { background:rgba(255,255,255,0.25);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px }
-    .preview-body { padding: 12px; }
-    .preview-verdict {
-      background: linear-gradient(135deg, #0D2B1A, #0A2016);
-      border: 1.5px solid #00C851;
-      border-radius: 10px;
-      padding: 10px 12px;
+    .stores-strip .works { font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em; width: 100%; text-align: center; margin-bottom: 4px; }
+
+    /* ── Section scaffolding ── */
+    section { padding: 72px 0; }
+    section.alt { background: var(--bg-alt); }
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
       margin-bottom: 10px;
     }
-    .pv-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px }
-    .pv-label { font-size:9px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em }
-    .pv-buy { background:#00C851;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px }
-    .pv-score-row { display:flex;align-items:center;gap:10px;margin-bottom:6px }
-    .pv-ring { width:44px;height:44px;flex-shrink:0 }
-    .pv-bars { flex:1;display:flex;flex-direction:column;gap:3px }
-    .pv-bar-row { display:flex;align-items:center;gap:4px;font-size:9px;color:#6B7280 }
-    .pv-bar-row span:first-child { width:42px }
-    .pv-bar-row span:last-child { font-weight:700;color:#E8EAFF;width:16px;text-align:right }
-    .pv-bar { flex:1;height:3px;background:#2A2D3E;border-radius:2px;overflow:hidden }
-    .pv-price { display:flex;align-items:baseline;gap:6px }
-    .pv-price-now { font-size:20px;font-weight:700;color:#F0F2FF }
-    .pv-price-was { font-size:11px;color:#6B7280;text-decoration:line-through }
-    .pv-price-off { font-size:10px;font-weight:700;color:#00C851;background:rgba(0,200,81,0.1);padding:1px 6px;border-radius:20px }
-    .pv-reason { font-size:10px;color:#9CA3AF;margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,200,81,0.15);line-height:1.4 }
-    .preview-buckets { display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px }
-    .pb { border-radius:8px;padding:7px;border:1px solid }
-    .pb.love { background:#0A2016;border-color:#166534 }
-    .pb.complaints { background:#1C1208;border-color:#78350F }
-    .pb-head { font-size:9px;font-weight:700;margin-bottom:4px }
-    .pb-item { font-size:9px;color:#9CA3AF;margin-bottom:2px;padding-left:6px;border-left:1.5px solid rgba(255,255,255,0.1) }
-    .preview-chart-label { font-size:9px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px }
-    .preview-chart { height:50px;background:#0D0F1A;border-radius:7px;border:1px solid #1E2030;display:flex;align-items:flex-end;padding:6px;gap:2px }
-    .preview-chart-bar { flex:1;border-radius:2px 2px 0 0;background:#1E2030 }
-    .preview-chart-line {
-      width:100%;height:50px;background:#0D0F1A;border-radius:7px;border:1px solid #1E2030;
-      position:relative;overflow:hidden;margin-bottom:10px;
-    }
-    .preview-chart-svg { width:100%;height:100% }
-
-    /* ── Floating stats ── */
-    .stat-floater {
-      position: absolute;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 12px;
-    }
-    .stat-floater.left { left: -80px; top: 120px; }
-    .stat-floater.right { right: -80px; top: 220px; }
-    .stat-num { font-size: 22px; font-weight: 800; font-family: var(--font-display); }
-    .stat-label { color: var(--muted); font-size: 11px; }
-
-    /* ── Trust strip ── */
-    .trust-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin: 60px 0 0;
-    }
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .trust-item .ti { font-size: 16px; }
-
-    /* ── Features ── */
-    .features { padding: 80px 0; }
-    .section-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 12px;
-    }
     .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 17px;
-      color: var(--muted);
-      max-width: 540px;
-      line-height: 1.6;
-      margin-bottom: 50px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .feature-card:hover { border-color: rgba(255,107,53,0.3); transform: translateY(-3px); }
-    .feature-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--text);
       margin-bottom: 14px;
     }
-    .feature-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 7px;
-      color: var(--text);
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 560px; margin-bottom: 44px; }
+
+    /* ── Feature cards — Microsoft card style: white, subtle shadow ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
-    .feature-card p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s, transform 0.2s;
     }
+    .feature-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--muted); }
     .feature-tag {
       display: inline-block;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 20px;
-      margin-top: 10px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-top: 14px;
     }
-    .tag-pro { background: rgba(255,107,53,0.15); color: var(--orange); }
-    .tag-free { background: rgba(0,200,81,0.15); color: var(--green); }
+    .tag-pro { background: #FFF4EE; color: var(--orange); }
+    .tag-free { background: #E6F4E6; color: var(--green); }
 
-    /* ── How it works ── */
-    .how { padding: 0 0 80px; }
-    .steps { display: flex; flex-direction: column; gap: 0; max-width: 600px; }
-    .step { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+    /* ── Platform highlights ── */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .platform-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .platform-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .platform-card p { font-size: 14px; color: var(--muted); }
+
+    /* ── Steps — clean numbered list ── */
+    .steps { max-width: 640px; }
+    .step { display: flex; gap: 22px; padding: 26px 0; border-bottom: 1px solid var(--border); }
     .step:last-child { border-bottom: none; }
     .step-num {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--orange), var(--yellow));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--blue);
       color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700;
       flex-shrink: 0;
-      margin-top: 2px;
-      font-family: var(--font-display);
     }
-    .step-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
-    .step-content p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .step-content h3 { font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+    .step-content p { font-size: 15px; color: var(--muted); }
 
-    /* ── Sites ── */
-    .sites { padding: 0 0 80px; }
+    /* ── Store chips ── */
     .sites-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
       margin-top: 36px;
     }
     .site-chip {
-      background: var(--card);
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
+      border-radius: var(--radius);
+      padding: 16px 12px;
       text-align: center;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--muted);
-      transition: border-color 0.2s, color 0.2s;
+      color: var(--text-secondary);
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.15s, border-color 0.15s;
     }
-    .site-chip:hover { border-color: rgba(255,107,53,0.4); color: var(--text); }
-    .site-flag { font-size: 18px; display: block; margin-bottom: 4px; }
+    .site-chip:hover { box-shadow: var(--shadow-hover); border-color: var(--blue); }
+    .site-flag { font-size: 22px; display: block; margin-bottom: 6px; }
 
-    /* ── Pricing ── */
-    .pricing { padding: 0 0 80px; }
+    /* ── Pricing — Microsoft plan cards ── */
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      max-width: 700px;
-      margin: 40px auto 0;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 760px;
+      margin: 44px auto 0;
     }
     .pricing-card {
-      background: var(--card);
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
     }
-    .pricing-card.featured {
-      border-color: var(--orange);
-      background: linear-gradient(160deg, rgba(255,107,53,0.08), var(--card));
-      position: relative;
-    }
+    .pricing-card.featured { border: 2px solid var(--blue); position: relative; }
     .featured-badge {
       position: absolute;
-      top: -12px; left: 50%;
+      top: -13px; left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      background: var(--blue);
       color: #fff;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 20px;
+      padding: 4px 16px;
+      border-radius: 12px;
       white-space: nowrap;
     }
-    .plan-name { font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
-    .plan-price { display:flex;align-items:baseline;gap:4px;margin-bottom:6px }
-    .plan-amount { font-family: var(--font-display); font-size: 38px; font-weight: 800; color: var(--text); }
-    .plan-period { font-size: 14px; color: var(--muted); }
-    .plan-alt { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
-    .plan-alt strong { color: var(--orange); }
-    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
-    .plan-features li { display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted) }
-    .plan-features li .check { color: var(--green); font-weight: 700; }
-    .plan-features li .lock { color: #3A3D50; }
+    .plan-name { font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+    .plan-price { display: flex; align-items: baseline; gap: 5px; margin-bottom: 6px; }
+    .plan-amount { font-size: 42px; font-weight: 700; color: var(--text); }
+    .plan-period { font-size: 15px; color: var(--muted); }
+    .plan-alt { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+    .plan-alt strong { color: var(--blue); }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
     .plan-features li.active { color: var(--text); }
+    .plan-features li .check { color: var(--green); font-weight: 700; }
+    .plan-features li .lock { color: #C8C6C4; }
     .plan-btn {
       display: block;
       text-align: center;
       padding: 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 600;
       text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: background 0.15s;
     }
-    .plan-btn.free { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); }
-    .plan-btn.pro { background: linear-gradient(135deg, var(--orange), var(--yellow)); color: #fff; box-shadow: 0 6px 24px rgba(255,107,53,0.3); }
-    .plan-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .plan-btn-monthly { display: block; text-align: center; margin-top: 10px; font-size: 13px; color: var(--muted); text-decoration: underline; }
-    .plan-btn-monthly:hover { color: var(--text); }
-
-    /* ── CTA section ── */
-    .cta-section {
+    .plan-btn.free { background: #fff; border: 1px solid var(--border); color: var(--text); }
+    .plan-btn.free:hover { border-color: var(--muted); }
+    .plan-btn.pro { background: var(--blue); color: #fff; }
+    .plan-btn.pro:hover { background: #106EBE; }
+    .plan-btn-monthly {
+      display: block;
       text-align: center;
-      padding: 80px 24px;
-      position: relative;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: underline;
     }
-    .cta-section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(255,107,53,0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .cta-section h2 {
-      font-family: var(--font-display);
-      font-size: clamp(30px, 5vw, 52px);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .cta-section p { font-size: 17px; color: var(--muted); margin-bottom: 36px; }
+    .plan-btn-monthly:hover { color: var(--blue); }
 
-    /* ── Footer ── */
+    /* ── CTA ── */
+    .cta-section { text-align: center; padding: 80px 24px; background: var(--bg-alt); }
+    .cta-section h2 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+    .cta-section p { font-size: 17px; color: var(--muted); margin-bottom: 32px; }
+
+    /* ── Footer — Microsoft style: light grey, small links, corporate line ── */
     footer {
+      background: var(--bg-alt);
       border-top: 1px solid var(--border);
-      padding: 32px 24px;
+      padding: 40px 24px 32px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
-      max-width: 900px;
-      margin: 0 auto;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
     }
-    .footer-brand { font-size: 14px; font-weight: 700; color: var(--muted); }
-    .footer-links { display:flex;gap:20px }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
-    .footer-links a:hover { color: var(--text); }
-    .footer-copy { font-size: 12px; color: #3A3D50; }
-
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand-text { font-weight: 600; color: var(--text-secondary); }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--blue); text-decoration: underline; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .fade-up { animation: fadeUp 0.6s ease forwards; }
-    .fade-up-2 { animation: fadeUp 0.6s 0.15s ease both; }
-    .fade-up-3 { animation: fadeUp 0.6s 0.3s ease both; }
+    .footer-daba { font-weight: 600; color: var(--text-secondary); }
+    .footer-daba .tm { font-size: 10px; vertical-align: super; }
+    .footer-tagline { font-style: italic; }
 
-    /* ── Mobile ── */
     @media (max-width: 640px) {
-      .stat-floater { display: none; }
-      .trust-strip { gap: 18px; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .footer-top, .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -535,204 +410,125 @@
 
 <!-- Nav -->
 <nav>
-  <a class="nav-brand" href="#">
-    <div class="nav-icon">🤖</div>
-    AI Copilot
-  </a>
-  <a class="nav-cta" href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" target="_blank">Add to Chrome — Free</a>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <img src="logo-mark.png" alt="DABA Enterprise" class="logo-img"/>
+      <span class="nav-name">AI Shopping Copilot</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a class="nav-cta" href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" target="_blank">Add to Chrome — Free</a>
+    </div>
+  </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow fade-up">
-      <div class="eyebrow-dot"></div>
-      Chrome Extension · Powered by Claude AI
-    </div>
-
-    <h1 class="fade-up-2">
-      Stop guessing.<br/>
-      <span class="gradient-text">Buy smarter.</span>
-    </h1>
-
-    <p class="hero-sub fade-up-3">
+    <div class="hero-eyebrow">✨ Chrome Extension · Powered by Claude AI</div>
+    <h1>Shop smarter on every store.<br/><span class="accent">One AI copilot.</span></h1>
+    <p class="hero-sub">
       AI Shopping Copilot analyses products on Amazon, AliExpress, Shein, eBay, Walmart and 20+ more stores — buying score, price history, sizing insights and hidden issues in seconds. Free to start.
     </p>
-
-    <div class="hero-actions fade-up-3">
-      <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" class="btn-primary" target="_blank">
-        🧩 Add to Chrome — Free
-      </a>
+    <div class="hero-actions">
+      <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" class="btn-primary" target="_blank">🧩 Add to Chrome — Free</a>
       <a href="#features" class="btn-secondary">See how it works</a>
     </div>
+    <p class="hero-note"><span>✓ Free</span> · No account needed · No API key · Works on 25+ stores worldwide</p>
 
-    <p class="hero-note fade-up-3">
-      <span>✓ Free</span> · No account needed · No API key · Works on 25+ stores worldwide
-    </p>
+    <div class="stores-strip">
+      <div class="works">Works with</div>
+      <span>Amazon</span><span>AliExpress</span><span>Shein</span><span>eBay</span><span>Walmart</span><span>Best Buy</span><span>JB Hi-Fi</span><span>Kogan</span><span>+ more</span>
+    </div>
+  </div>
+</section>
 
-    <!-- Extension preview mockup -->
-    <div class="preview-wrap">
-      <div class="preview-glow"></div>
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="section-eyebrow">What you get</div>
+    <h2 class="section-title">Every tool you need to shop smarter</h2>
+    <p class="section-sub">Open any product page and get a full AI intelligence report in seconds. No setup, no account, no API key.</p>
 
-      <!-- Left floater -->
-      <div class="stat-floater left">
-        <div class="stat-num" style="color:var(--orange)">91%</div>
-        <div class="stat-label">Review score</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#E6F4E6">📊</div>
+        <h3>Buying Score</h3>
+        <p>A 0–100 score calculated from Value, Quality and Reliability — a structured AI verdict, not a guess.</p>
+        <span class="feature-tag tag-pro">Pro feature</span>
       </div>
-
-      <!-- Right floater -->
-      <div class="stat-floater right">
-        <div class="stat-num" style="color:var(--green)">72% off</div>
-        <div class="stat-label">Price drop</div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#E5F1FB">📈</div>
+        <h3>Price History</h3>
+        <p>See price movement over time so you know if today's deal is actually a deal or a fake sale sticker.</p>
+        <span class="feature-tag tag-free">Free</span>
       </div>
-
-      <div class="preview-card">
-        <!-- Header -->
-        <div class="preview-header">
-          <div class="preview-brand">
-            <div class="preview-icon">🤖</div>
-            <div>
-              <div class="preview-name">AI Copilot</div>
-              <div class="preview-sub-text">Amazon AU</div>
-            </div>
-          </div>
-          <div class="preview-badge">⚡ Pro</div>
-        </div>
-
-        <!-- Body -->
-        <div class="preview-body">
-          <!-- Verdict -->
-          <div class="preview-verdict">
-            <div class="pv-row">
-              <span class="pv-label">Verdict · Amazon AU</span>
-              <span class="pv-buy">✓ Buy Now</span>
-            </div>
-            <div class="pv-score-row">
-              <svg class="pv-ring" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="17" fill="none" stroke="#1E2030" stroke-width="4"/>
-                <circle cx="22" cy="22" r="17" fill="none" stroke="#00C851" stroke-width="4"
-                  stroke-dasharray="106.8" stroke-dashoffset="14"
-                  stroke-linecap="round" transform="rotate(-90 22 22)"/>
-                <text x="22" y="27" text-anchor="middle" fill="#F0F2FF" font-size="11" font-weight="700" font-family="Inter,sans-serif">87</text>
-              </svg>
-              <div class="pv-bars">
-                <div class="pv-bar-row"><span>Value</span><div class="pv-bar"><div style="width:85%;height:100%;background:#0095FF;border-radius:2px"></div></div><span>85</span></div>
-                <div class="pv-bar-row"><span>Quality</span><div class="pv-bar"><div style="width:92%;height:100%;background:#00C851;border-radius:2px"></div></div><span>92</span></div>
-                <div class="pv-bar-row"><span>Reliability</span><div class="pv-bar"><div style="width:80%;height:100%;background:#FFB800;border-radius:2px"></div></div><span>80</span></div>
-              </div>
-            </div>
-            <div class="pv-price">
-              <span class="pv-price-now">AU$449</span>
-              <span class="pv-price-was">AU$1,599</span>
-              <span class="pv-price-off">72% off</span>
-            </div>
-            <div class="pv-reason">Lowest recorded price. Historical data shows it returns to AU$999 after the sale.</div>
-          </div>
-
-          <!-- Buckets -->
-          <div class="preview-buckets">
-            <div class="pb love">
-              <div class="pb-head" style="color:#4ADE80">💚 Love</div>
-              <div class="pb-item">Powerful suction</div>
-              <div class="pb-item">Self-emptying dock</div>
-              <div class="pb-item">No hair tangles</div>
-            </div>
-            <div class="pb complaints">
-              <div class="pb-head" style="color:#FBB040">⚠️ Complaints</div>
-              <div class="pb-item">App setup (12%)</div>
-              <div class="pb-item">Noise level (8%)</div>
-            </div>
-          </div>
-
-          <!-- Price chart -->
-          <div class="preview-chart-label">Price history</div>
-          <div class="preview-chart-line">
-            <svg class="preview-chart-svg" viewBox="0 0 320 50" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0095FF" stop-opacity="0.3"/>
-                  <stop offset="100%" stop-color="#0095FF" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path d="M0,8 L26,8 L52,8 L78,12 L104,18 L130,10 L156,10 L182,14 L208,18 L234,18 L260,8 L286,8 L320,40" fill="none" stroke="#0095FF" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M0,8 L26,8 L52,8 L78,12 L104,18 L130,10 L156,10 L182,14 L208,18 L234,18 L260,8 L286,8 L320,40 L320,50 L0,50Z" fill="url(#chartGrad)"/>
-              <circle cx="320" cy="40" r="4" fill="#FF6B35" stroke="#13162A" stroke-width="1.5"/>
-            </svg>
-          </div>
-        </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FFF4EE">💬</div>
+        <h3>AI Review Analysis</h3>
+        <p>What customers Love and the real Issues — including hidden, high-severity problems with percentages.</p>
+        <span class="feature-tag tag-pro">Pro feature</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FDF3F4">✅</div>
+        <h3>Buy / Wait / Skip Verdict</h3>
+        <p>A clear recommendation with reasoning, tailored to the exact deal in front of you.</p>
+        <span class="feature-tag tag-free">Free</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FFF9E6">🛍</div>
+        <h3>Similar Products</h3>
+        <p>Direct links to comparable alternatives so you can compare before committing to a purchase.</p>
+        <span class="feature-tag tag-pro">Pro feature</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#F3EEFB">💬</div>
+        <h3>Ask Anything</h3>
+        <p>Built-in AI chat that knows the product you're viewing. Ask anything about it.</p>
+        <span class="feature-tag tag-free">Free</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Trust strip -->
-<div class="trust-strip">
-  <div class="trust-item">🌍 25+ stores · Amazon, AliExpress, Shein & more</div>
-  <div class="trust-item">🔒 Privacy first — no data collected</div>
-  <div class="trust-item">⚡ Powered by Claude AI</div>
-  <div class="trust-item">🛒 Free to install</div>
-</div>
-
-<!-- Features -->
-<section class="features" id="features">
+<!-- Platform intelligence -->
+<section class="alt">
   <div class="container">
-    <div class="section-eyebrow">What you get</div>
-    <h2 class="section-title">Every tool you need<br/>to shop smarter</h2>
-    <p class="section-sub">Open any product page and get a full AI intelligence report in seconds. No setup, no account, no API key.</p>
+    <div class="section-eyebrow">Smart per-platform analysis</div>
+    <h2 class="section-title">Tuned for how each store really works</h2>
+    <p class="section-sub">The AI adapts its analysis to what matters most on each platform.</p>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(0,200,81,0.1)">📊</div>
-        <h3>Buying Score</h3>
-        <p>A 0–100 score calculated from Value (30%), Quality (40%) and Reliability (30%) — not a guess, a structured AI verdict.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <h3>🛒 Amazon</h3>
+        <p>Deal authenticity, price history, and deep review analysis across 21 country sites — US, AU, UK, CA, DE, FR, JP, IN and more.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(0,149,255,0.1)">📈</div>
-        <h3>Price History</h3>
-        <p>12-month price chart so you know if today's deal is actually a deal or just regular price with a fake sale sticker.</p>
-        <span class="feature-tag tag-free">Free</span>
+      <div class="platform-card">
+        <h3>📦 AliExpress</h3>
+        <p>Seller trustworthiness scoring: store rating, shipping-time complaints, and "not as described" red flags before you order.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(255,107,53,0.1)">💬</div>
-        <h3>AI Review Analyst</h3>
-        <p>Three buckets — what customers Love, recurring Complaints with percentages, and hidden high-severity issues.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(255,59,48,0.1)">🚨</div>
-        <h3>Hidden Issue Detection</h3>
-        <p>Low-frequency but high-severity problems most buyers miss — safety concerns, defect patterns, quality fails.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(255,184,0,0.1)">⇄</div>
-        <h3>Cross-Tab Comparison</h3>
-        <p>Browse product A, then product B — the extension remembers and builds a side-by-side comparison automatically.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.1)">👤</div>
-        <h3>Personal Profile</h3>
-        <p>Set your priority (quality vs price vs sustainability), region, and what to avoid. Every analysis is tailored to you.</p>
-        <span class="feature-tag tag-pro">Pro feature</span>
+      <div class="platform-card">
+        <h3>👗 Shein</h3>
+        <p>Sizing intelligence: know if it runs small or large from real reviewer feedback, plus photo-vs-reality quality checks.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- How it works -->
-<section class="how" id="how">
+<section id="how">
   <div class="container">
     <div class="section-eyebrow">How it works</div>
-    <h2 class="section-title">Three steps.<br/>Zero effort.</h2>
+    <h2 class="section-title">Three steps. Zero effort.</h2>
 
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-content">
           <h3>Install the extension</h3>
-          <p>One click from the Chrome Web Store. No account, no API key, no setup. It's ready to use the moment it installs.</p>
+          <p>One click from the Chrome Web Store. No account, no API key, no setup.</p>
         </div>
       </div>
       <div class="step">
@@ -745,19 +541,19 @@
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <h3>Get your instant report</h3>
-          <p>Click the icon and watch the analysis build in real time — buying score, price history, review sentiment, verdict and more.</p>
+          <h3>Click Analyse</h3>
+          <p>Watch the AI report build in real time — buying score, price history, review insights, verdict and more.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Supported sites -->
-<section class="sites">
+<!-- Supported stores -->
+<section class="alt">
   <div class="container">
     <div class="section-eyebrow">Coverage</div>
-    <h2 class="section-title">All your favourite stores.<br/>One AI copilot.</h2>
+    <h2 class="section-title">All your favourite stores. One AI copilot.</h2>
     <div class="sites-grid">
       <div class="site-chip"><span class="site-flag">🇦🇺</span>Amazon AU</div>
       <div class="site-chip"><span class="site-flag">🇺🇸</span>Amazon US</div>
@@ -765,76 +561,69 @@
       <div class="site-chip"><span class="site-flag">🇨🇦</span>Amazon CA</div>
       <div class="site-chip"><span class="site-flag">🇩🇪</span>Amazon DE</div>
       <div class="site-chip"><span class="site-flag">🇫🇷</span>Amazon FR</div>
-      <div class="site-chip"><span class="site-flag">🇮🇹</span>Amazon IT</div>
-      <div class="site-chip"><span class="site-flag">🇪🇸</span>Amazon ES</div>
       <div class="site-chip"><span class="site-flag">🇯🇵</span>Amazon JP</div>
       <div class="site-chip"><span class="site-flag">🇮🇳</span>Amazon IN</div>
-      <div class="site-chip"><span class="site-flag">🇧🇷</span>Amazon BR</div>
-      <div class="site-chip"><span class="site-flag">🇲🇽</span>Amazon MX</div>
-      <div class="site-chip"><span class="site-flag">🇸🇬</span>Amazon SG</div>
-      <div class="site-chip"><span class="site-flag">🇦🇪</span>Amazon AE</div>
       <div class="site-chip"><span class="site-flag">📦</span>AliExpress</div>
       <div class="site-chip"><span class="site-flag">👗</span>Shein</div>
       <div class="site-chip"><span class="site-flag">🛍</span>eBay</div>
+      <div class="site-chip"><span class="site-flag">🛒</span>Walmart</div>
+      <div class="site-chip"><span class="site-flag">💻</span>Best Buy</div>
       <div class="site-chip"><span class="site-flag">🎵</span>JB Hi-Fi</div>
       <div class="site-chip"><span class="site-flag">🦘</span>Kogan</div>
       <div class="site-chip"><span class="site-flag">🏷</span>Harvey Norman</div>
-      <div class="site-chip"><span class="site-flag">🛒</span>Walmart</div>
-      <div class="site-chip"><span class="site-flag">💻</span>Best Buy</div>
+      <div class="site-chip"><span class="site-flag">🛒</span>Big W</div>
+      <div class="site-chip"><span class="site-flag">🏬</span>Myer</div>
+      <div class="site-chip"><span class="site-flag">🎯</span>Catch</div>
+      <div class="site-chip"><span class="site-flag">📦</span>Costco</div>
     </div>
   </div>
 </section>
 
 <!-- Pricing -->
-<section class="pricing" id="pricing">
+<section id="pricing">
   <div class="container">
     <div class="section-eyebrow">Pricing</div>
-    <h2 class="section-title" style="text-align:center">Start free.<br/>Go Pro when you're ready.</h2>
+    <h2 class="section-title" style="text-align:center">Start free. Go Pro when you're ready.</h2>
 
     <div class="pricing-grid">
-      <!-- Free -->
       <div class="pricing-card">
         <div class="plan-name">Free</div>
         <div class="plan-price">
           <span class="plan-amount">$0</span>
           <span class="plan-period">/month</span>
         </div>
-        <div class="plan-alt">5 analyses per day · Resets at midnight</div>
+        <div class="plan-alt">7 full analyses per day + unlimited basic · Resets daily</div>
         <ul class="plan-features">
           <li class="active"><span class="check">✓</span> Buy / Wait / Skip verdict</li>
           <li class="active"><span class="check">✓</span> Price history chart</li>
           <li class="active"><span class="check">✓</span> Key features summary</li>
-          <li class="active"><span class="check">✓</span> First 2 analyses fully featured</li>
-          <li><span class="lock">✕</span> Buying Score</li>
-          <li><span class="lock">✕</span> AI Review Analyst</li>
+          <li class="active"><span class="check">✓</span> 7 full AI analyses daily</li>
+          <li><span class="lock">✕</span> Unlimited Buying Score</li>
+          <li><span class="lock">✕</span> Unlimited AI Review Analysis</li>
           <li><span class="lock">✕</span> Hidden Issue Detection</li>
-          <li><span class="lock">✕</span> Cross-tab Comparison</li>
-          <li><span class="lock">✕</span> Shopping Profile</li>
         </ul>
         <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" class="plan-btn free" target="_blank">Install Free</a>
       </div>
 
-      <!-- Pro -->
       <div class="pricing-card featured">
-        <div class="featured-badge">⚡ Most Popular</div>
+        <div class="featured-badge">Best value</div>
         <div class="plan-name">Pro</div>
         <div class="plan-price">
-          <span class="plan-amount" style="color:var(--orange)">$34</span>
+          <span class="plan-amount">$34</span>
           <span class="plan-period">/year</span>
         </div>
         <div class="plan-alt">≈ $2.83/month · or <strong>$7/month</strong> billed monthly</div>
         <ul class="plan-features">
           <li class="active"><span class="check">✓</span> Everything in Free</li>
-          <li class="active"><span class="check">✓</span> Unlimited analyses</li>
+          <li class="active"><span class="check">✓</span> Unlimited full analyses</li>
           <li class="active"><span class="check">✓</span> Buying Score + breakdown</li>
-          <li class="active"><span class="check">✓</span> AI Review Analyst</li>
+          <li class="active"><span class="check">✓</span> AI Review Analysis</li>
           <li class="active"><span class="check">✓</span> Hidden Issue Detection</li>
-          <li class="active"><span class="check">✓</span> Cross-tab Comparison</li>
-          <li class="active"><span class="check">✓</span> Personal Shopping Profile</li>
+          <li class="active"><span class="check">✓</span> Similar product comparison</li>
           <li class="active"><span class="check">✓</span> Priority AI speed</li>
         </ul>
-        <a href="https://dabaaishopping.lemonsqueezy.com/checkout/buy/818c3528-ee18-49f0-a71e-1d44cdf5a8dd" class="plan-btn pro" target="_blank">Get Pro — $34/year (save 60%)</a>
-        <a href="https://dabaaishopping.lemonsqueezy.com/checkout/buy/13806fe5-b112-4930-bb10-f259bdc7fd8a" class="plan-btn-monthly" target="_blank">or $7/month</a>
+        <a href="https://dabaaishopping.lemonsqueezy.com/checkout" class="plan-btn pro" target="_blank">Get Pro — $34/year</a>
+        <a href="https://dabaaishopping.lemonsqueezy.com/checkout" class="plan-btn-monthly" target="_blank">or $7/month</a>
       </div>
     </div>
   </div>
@@ -844,22 +633,31 @@
 <section class="cta-section">
   <div class="container">
     <h2>Ready to shop smarter?</h2>
-    <p>Join thousands of shoppers who never overpay. Free to install, no account needed.</p>
-    <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" class="btn-primary" target="_blank" style="font-size:16px;padding:16px 36px">
-      🧩 Add to Chrome — It's Free
-    </a>
+    <p>Join shoppers worldwide who never overpay. Free to install, no account needed.</p>
+    <a href="https://chromewebstore.google.com/detail/ai-shopping-copilot/YOUR_EXTENSION_ID" class="btn-primary" target="_blank" style="font-size:16px;padding:15px 36px">🧩 Add to Chrome — It's Free</a>
   </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <div class="footer-brand">🤖 AI Shopping Copilot</div>
-  <div class="footer-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="logo-mark.png" alt="DABA Enterprise" class="logo-img"/>
+        <span class="footer-brand-text">AI Shopping Copilot</span>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="https://dabaaishopping.lemonsqueezy.com/checkout" target="_blank">Go Pro</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-daba"><img src="logo-full.png" alt="DABA Enterprise™ — Digital Acceleration Beyond Automation" class="footer-logo-full"/></div>
+      <div>© 2026 DABA Enterprise™ · Powered by Anthropic Claude</div>
+    </div>
   </div>
-  <div class="footer-copy">© 2026 AI Shopping Copilot · Powered by Anthropic Claude</div>
 </footer>
 
 </body>
